@@ -8,6 +8,7 @@ class BarItem extends StatelessWidget {
   final IconData iconData;
   final double size;
   final Color selected;
+  final Widget iconWidget;
   final Color unselected;
 
   const BarItem({
@@ -15,6 +16,7 @@ class BarItem extends StatelessWidget {
     this.index,
     this.onTap,
     this.iconData,
+    this.iconWidget,
     this.size,
     this.selected,
     this.unselected,
@@ -29,11 +31,17 @@ class BarItem extends StatelessWidget {
         onTap(index.toDouble());
       },
       child: Container(
-        child: Icon(
-          iconData,
-          size: size,
-          color: (currentIndex == index) ? selected : unselected,
-        ),
+        child: iconData != null
+            ? Icon(
+                iconData,
+                size: size,
+                color: (currentIndex == index) ? selected : unselected,
+              )
+            : Container(
+                height: size,
+                width: size,
+                child: iconWidget,
+              ),
       ),
     );
   }
@@ -45,6 +53,7 @@ class SpecialBarItem extends StatefulWidget {
   final Duration duration;
   final IconData iconData;
   final double size;
+  final Widget iconWidget;
   final Color color;
   final AnimationController animationController;
 
@@ -56,6 +65,7 @@ class SpecialBarItem extends StatefulWidget {
     this.index,
     this.animationController,
     this.iconData,
+    this.iconWidget,
     this.size,
   }) : super(key: key);
 
@@ -92,14 +102,18 @@ class _SpecialBarItemState extends State<SpecialBarItem>
       child: Align(
         alignment: Alignment.topCenter,
         child: Container(
-          padding: EdgeInsets.all(5),
-          child: RotationTransition(
-            child: Icon(
-              widget.iconData,
-              size: widget.size,
-            ),
-            turns: Tween(begin: 0.0, end: 3 / 8).animate(controller),
-          ),
+          height: widget.size * 1.2,
+          width: widget.size * 1.2,
+          padding: EdgeInsets.all(6),
+          child: widget.iconData != null
+              ? Icon(
+                  widget.iconData,
+                  size: widget.size,
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: widget.iconWidget,
+                ),
           decoration: BoxDecoration(
             color: widget.color,
             shape: BoxShape.circle,
@@ -116,6 +130,7 @@ class ActionBarItem extends StatelessWidget {
   final ValueChanged<double> onTap;
   final IconData iconData;
   final double size;
+  final Widget iconWidget;
 
   const ActionBarItem({
     Key key,
@@ -123,6 +138,7 @@ class ActionBarItem extends StatelessWidget {
     this.onTap,
     this.mainIndex,
     this.iconData,
+    this.iconWidget,
     this.size,
   }) : super(key: key);
 
@@ -145,10 +161,12 @@ class ActionBarItem extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            iconData,
-            size: size,
-          ),
+          child: iconData != null
+              ? Icon(
+                  iconData,
+                  size: size,
+                )
+              : iconWidget,
         ),
       ),
     );

@@ -129,6 +129,7 @@ class NavigationActionBarState extends State<NavigationActionBar>
                     child: ActionBarItem(
                       onTap: _buttonTap,
                       iconData: item.iconData,
+                      iconWidget: item.iconWidget,
                       size: item.size,
                       mainIndex: widget.mainIndex,
                       index: index,
@@ -180,6 +181,7 @@ class NavigationActionBarState extends State<NavigationActionBar>
                   return SpecialBarItem(
                     animationController: controller,
                     iconData: item.iconData,
+                    iconWidget : item.iconWidget,
                     size: item.size,
                     index: index,
                     onTap: _buttonTap,
@@ -190,6 +192,7 @@ class NavigationActionBarState extends State<NavigationActionBar>
                     index: index,
                     onTap: _buttonTap,
                     iconData: item.iconData,
+                    iconWidget : item.iconWidget,
                     size: item.size,
                     selected: item.selectedColor,
                     unselected: item.unselectedColor,
@@ -245,12 +248,14 @@ class NavigationActionBarState extends State<NavigationActionBar>
 
 class NavBarItem {
   final IconData iconData;
+  final Widget iconWidget;
   final double size;
   final Color selectedColor;
   final Color unselectedColor;
 
   NavBarItem({
     this.iconData,
+    this.iconWidget,
     this.size,
     this.selectedColor = Colors.redAccent,
     this.unselectedColor = Colors.black,

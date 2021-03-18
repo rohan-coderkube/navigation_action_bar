@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navigation_action_bar/navigation_action_bar.dart';
 
 void main() => runApp(MaterialApp(home: CustomNavigationBar()));
@@ -10,6 +11,20 @@ class CustomNavigationBar extends StatefulWidget {
 
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   double currentIndex = 0;
+  Color unSelectedColor = Colors.grey;
+  Color selectedColor = Colors.black;
+
+  Widget bottomIconCustom(String path, {Function() onclick, Color color}) {
+    return GestureDetector(
+      onTap: onclick,
+      child: SvgPicture.asset(
+        path,
+        height: 20,
+        width: 20,
+        color: color,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +33,54 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         context: context,
         scaffoldColor: Colors.blueAccent,
         index: 0,
+        accentColor: Colors.white,
         subItems: [
-          NavBarItem(iconData: Icons.attach_file, size: 25),
-          NavBarItem(iconData: Icons.photo, size: 25),
-          NavBarItem(iconData: Icons.camera_alt, size: 25),
+          NavBarItem(
+            iconWidget:
+                bottomIconCustom("asserts/images/phone-call.svg", onclick: () {
+              print("clickedddd1111");
+            }),
+            size: 30,
+          ),
+          NavBarItem(
+              iconWidget:
+                  bottomIconCustom("asserts/images/whatsapp.svg", onclick: () {
+                print("clickedddd1111222222");
+              }),
+              size: 30),
         ],
         mainIndex: 2,
         items: [
-          NavBarItem(iconData: Icons.list, size: 30),
-          NavBarItem(iconData: Icons.compare_arrows, size: 30),
-          NavBarItem(iconData: Icons.add, size: 40),
-          NavBarItem(iconData: Icons.call_merge, size: 30),
-          NavBarItem(iconData: Icons.person, size: 30),
+          NavBarItem(
+              iconWidget: bottomIconCustom("asserts/images/ic_home.svg",
+                  color: currentIndex == 0 ? selectedColor : unSelectedColor),
+              size: 24),
+          NavBarItem(
+              iconWidget: bottomIconCustom("asserts/images/ic_upload_post.svg",
+                  color: currentIndex == 1 ? selectedColor : unSelectedColor),
+              size: 24),
+          NavBarItem(
+              iconWidget: bottomIconCustom("asserts/images/alarm.svg",
+               ),
+              size: 40),
+          NavBarItem(
+              iconWidget: bottomIconCustom("asserts/images/user.svg",
+                  color: currentIndex == 3 ? selectedColor : unSelectedColor),
+              size: 24),
+          NavBarItem(
+              iconWidget: bottomIconCustom("asserts/images/menu.svg",
+                  color: currentIndex == 4 ? selectedColor : unSelectedColor),
+              size: 24),
         ],
         onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
+          print("amajset6e... ${index}");
+
+          if (index == 2) {
+          } else {
+            setState(() {
+              currentIndex = index;
+            });
+          }
         },
       ),
       body: Container(
@@ -42,12 +88,18 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Center(
-          child: Text(
-            currentIndex.toString(),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 25,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                currentIndex.toString(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                ),
+              ),
+              bottomIconCustom("asserts/images/alarm.png"),
+            ],
           ),
         ),
       ),
